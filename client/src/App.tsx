@@ -2,6 +2,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import { AuthProvider, useAuth } from "./lib/AuthContext";
 import LanguageLocation from "./pages/LanguageLocation";
 import Login from "./pages/Login";
+import OAuthCallback from "./pages/OAuthCallback";
 import Onboarding from "./pages/Onboarding";
 import Home from "./pages/Home";
 
@@ -19,6 +20,7 @@ function AppRoutes() {
     <Routes>
       <Route path="/" element={<LanguageLocation />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/oauth/callback" element={<OAuthCallback />} />
       <Route
         path="/onboarding"
         element={

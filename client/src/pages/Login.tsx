@@ -1,15 +1,32 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../lib/AuthContext";
+import { api } from "../lib/api";
 
 export default function Login() {
   const { loginWithGoogle } = useAuth();
   const navigate = useNavigate();
+  const [googleOAuthEnabled, setGoogleOAuthEnabled] = useState<boolean | null>(null);
   const [showPicker, setShowPicker] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
+
+  useEffect(() => {
+    api
+      .config()
+      .then((res) => setGoogleOAuthEnabled(res.googleOAuthEnabled))
+      .catch(() => setGoogleOAuthEnabled(false));
+  }, []);
+
+  function handleGoogleClick() {
+    if (googleOAuthEnabled) {
+      window.location.href = "/api/auth/google/start";
+    } else {
+      setShowPicker(true);
+    }
+  }
 
   async function handleContinue(e: React.FormEvent) {
     e.preventDefault();
@@ -39,8 +56,9 @@ export default function Login() {
 
         {!showPicker ? (
           <button
-            onClick={() => setShowPicker(true)}
-            className="w-full flex items-center justify-center gap-3 rounded-xl bg-white text-zinc-900 font-medium py-3 hover:bg-zinc-100 transition-colors"
+            onClick={handleGoogleClick}
+            disabled={googleOAuthEnabled === null}
+            className="w-full flex items-center justify-center gap-3 rounded-xl bg-white text-zinc-900 font-medium py-3 hover:bg-zinc-100 transition-colors disabled:opacity-60"
           >
             <GoogleIcon />
             Continue with Google

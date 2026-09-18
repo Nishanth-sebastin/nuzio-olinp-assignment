@@ -72,6 +72,7 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
 }
 
 export const api = {
+  config: () => request<{ googleOAuthEnabled: boolean }>("/config"),
   loginWithGoogle: (name: string, email: string) =>
     request<{ token: string; user: User }>("/auth/google", {
       method: "POST",
