@@ -204,6 +204,37 @@ app.get("/api/briefs", requireAuth, async (req: Request, res: Response) => {
   });
 });
 
+// --- Privacy policy (required for Google OAuth production publishing) ---
+
+app.get("/privacy", (_req: Request, res: Response) => {
+  res.type("text/plain").send(`Privacy Policy — Nuzio (Olinp Assignment Demo)
+
+This is a take-home assignment demo project, not a commercial product.
+
+What data this app collects
+-----------------------------
+When you sign in with Google, the app receives your name, email address, and
+Google account ID via the standard OAuth "openid email profile" scopes. This
+is the minimum information needed to create a session and personalize your
+morning-brief preferences (niches, narrator voice, brief length).
+
+How it's used
+-------------
+- Your name and email identify your account and session.
+- Your selected preferences are stored to personalize the news feed shown to you.
+- No data is shared with third parties, sold, or used for advertising.
+
+Where it's stored
+------------------
+Data is stored in a Postgres database (Neon) used solely for this demo project.
+
+Contact
+-------
+This is a personal project built for a job application assignment.
+Contact the repository owner via GitHub: https://github.com/Nishanth-sebastin
+`);
+});
+
 // --- Serve the built React app in production (single-deploy setup) ---
 
 const clientDist = path.join(__dirname, "../../client/dist");
